@@ -87,3 +87,14 @@ services:
                 max-file: "2"
         ports:
             - 7700:7700
+    tonic_db:
+        image: postgres:9.6.10
+        restart: always
+        volumes:
+            - ./postgres-data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: [tonic db username]
+            POSTGRES_PASSWORD: [tonic db password]
+            POSTGRES_DB: [tonic db]
+        container_name: tonic_db
+        mem_limit: 512m
