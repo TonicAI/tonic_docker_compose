@@ -1,0 +1,89 @@
+version: '2.4'
+services:
+    tonic_web_server:
+        image: quay.io/tonicai/tonic_web_server:latest
+        environment:
+            TONIC_DB_HOST: [tonic db host]
+            TONIC_DB_PORT: [tonic db port]
+            TONIC_DB_DATABASE: [tonic db]
+            TONIC_DB_USERNAME: [tonic db username]
+            TONIC_DB_PASSWORD: [tonic db password]
+            TONIC_DB_SSLMODE: require
+            TONIC_LICENSE: [your company license]
+            ENABLE_LOG_COLLECTION: "false"
+            TONIC_STATISTICS_SEED: [any number]
+            ENVIRONMENT_NAME: [your name]
+        container_name: tonic_web_server
+        mem_limit: 1024m
+        ports:
+            - 80:80
+            - 443:443
+    tonic_worker:
+        image: quay.io/tonicai/tonic_worker:latest
+        environment:
+            TONIC_DB_HOST: [tonic db host]
+            TONIC_DB_PORT: [tonic db port]
+            TONIC_DB_DATABASE: [tonic db]
+            TONIC_DB_USERNAME: [tonic db username]
+            TONIC_DB_PASSWORD: [tonic db password]
+            TONIC_DB_SSLMODE: require
+            ENABLE_LOG_COLLECTION: "false"
+            TONIC_STATISTICS_SEED: [any number]
+            ENVIRONMENT_NAME: [your name]
+        ports:
+            - 8080:80
+            - 4433:443
+        container_name: tonic_worker
+        mem_limit: 12288m
+    tonic_pii_detection:
+        image: quay.io/tonicai/tonic_pii_detection:latest
+        container_name: tonic_pii_detection
+        mem_limit: 512m
+        environment:
+            ENABLE_LOG_COLLECTION: "false"
+            ENVIRONMENT_NAME: [your name]
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200m"
+                max-file: "2"
+    tonic_notifications:
+        image: quay.io/tonicai/tonic_notifications:latest
+        container_name: tonic_notifications
+        mem_limit: 1024m
+        ports:
+            - 7000:80
+            - 7001:443
+        environment:
+            ENVIRONMENT_NAME: [your org name]
+            ENABLE_LOG_COLLECTION: "false"
+            TONIC_DB_HOST: [tonic db host]
+            TONIC_DB_PORT: [tonic db port]
+            TONIC_DB_DATABASE: [tonic db]
+            TONIC_DB_USERNAME: [tonic db username]
+            TONIC_DB_PASSWORD: [tonic db password]
+#            TONIC_URL: [tonic URL, for links]
+#            TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
+#            TONIC_NOTIFICATION_SMTP_SERVER_ADDRESS: [smtp host]
+#            TONIC_NOTIFICATION_SMTP_SERVER_PORT: [smtp port, 465]
+#            TONIC_NOTIFICATION_SMTP_USERNAME: [smtp username]
+#            TONIC_NOTIFICATION_SMTP_PASSWORD: [smtp password]
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200m"
+                max-file: "2"
+    tonic_pyml_service:
+        image: quay.io/tonicai/tonic_pyml_service:latest
+        container_name: tonic_pyml_service
+        mem_limit: 1024m
+        environment:
+            ENABLE_LOG_COLLECTION: "false"
+            ENVIRONMENT_NAME: [your name]
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200m"
+                max-file: "2"
+        ports:
+            - 7700:7700
