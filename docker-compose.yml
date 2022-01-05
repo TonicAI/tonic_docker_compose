@@ -87,6 +87,26 @@ services:
                 max-file: "2"
         ports:
             - 7700:7700
+    tonic_oracle_helper:
+        # Uncomment the image which corresponds to your Oracle version: 11, 12, or 19
+        #image: quay.io/tonicai/tonic_oracle_helper_11_2:latest
+        #image: quay.io/tonicai/tonic_oracle_helper_12_2:latest
+        #image: quay.io/tonicai/tonic_oracle_helper_19:latest
+        container_name: tonic_oracle_helper
+        ports:
+            - 5000:5000
+            - 5001:5001
+        environment:
+            ENABLE_LOG_COLLECTION: "false"
+            NLS_LANG: "AMERICAN_AMERICA.AL32UTF8"
+            ENVIRONMENT_NAME: [your name]
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200m"
+                max-file: "2"
+        volumes:
+            - /tmp:/tmp
     tonic_db:
         image: postgres:9.6.10
         restart: always
