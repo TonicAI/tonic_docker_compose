@@ -1,89 +1,118 @@
 version: '2.4'
 services:
     tonic_web_server:
-        image: quay.io/tonicai/tonic_web_server:latest
+        image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
         environment:
-            TONIC_DB_HOST: [tonic db host]
-            TONIC_DB_PORT: [tonic db port]
-            TONIC_DB_DATABASE: [tonic db]
-            TONIC_DB_USERNAME: [tonic db username]
-            TONIC_DB_PASSWORD: [tonic db password]
+            # The TONIC_DB_* variables are the connection details for the Postgres metadata/application database which holds Tonic's state (user accounts, workspaces, etc.)
+            TONIC_DB_HOST: ${TONIC_DB_HOST}
+            TONIC_DB_PORT: ${TONIC_DB_PORT}
+            TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
+            TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
+            TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
             TONIC_DB_SSLMODE: require
-            TONIC_LICENSE: [your company license]
-            ENABLE_LOG_COLLECTION: "false"
-            TONIC_STATISTICS_SEED: [any number]
-            ENVIRONMENT_NAME: [your name]
+            # Your license value will be provided by Tonic
+            TONIC_LICENSE: [your_companys_license]
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}ø
+            # This value is used to support Consistency functionality between data generation runs.
+            TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         container_name: tonic_web_server
         mem_limit: 1024m
-        volumes:
-            - ./ValueProcessors:/ValueProcessors
+        # OPTIONAL
+        # If you are using a Custom Value Processor, the following section must be uncommented.
+        # The mount path inside the container must be "/ValueProcessors". The external path should be the location where you have places the .DLL for the custom value processor(s)
+        # volumes:
+        #     - ${CVP_PATH-./ValueProcessors}:/ValueProcessors
         ports:
             - 80:80
             - 443:443
     tonic_worker:
-        image: quay.io/tonicai/tonic_worker:latest
+        image: quay.io/tonicai/tonic_worker:${VERSION_TAG:-latest}
         environment:
-            TONIC_DB_HOST: [tonic db host]
-            TONIC_DB_PORT: [tonic db port]
-            TONIC_DB_DATABASE: [tonic db]
-            TONIC_DB_USERNAME: [tonic db username]
-            TONIC_DB_PASSWORD: [tonic db password]
+            # The TONIC_DB_* variables are the connection details for the Postgres metadata/application database which holds Tonic's state (user accounts, workspaces, etc.)
+            TONIC_DB_HOST: ${TONIC_DB_HOST}
+            TONIC_DB_PORT: ${TONIC_DB_PORT}
+            TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
+            TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
+            TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
             TONIC_DB_SSLMODE: require
-            ENABLE_LOG_COLLECTION: "false"
-            TONIC_STATISTICS_SEED: [any number]
-            ENVIRONMENT_NAME: [your name]
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            # This value is used to support Consistency functionality between data generation runs.
+            TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         ports:
             - 8080:80
             - 4433:443
         container_name: tonic_worker
-        volumes:
-            - ./ValueProcessors:/ValueProcessors
+        # OPTIONAL
+        # If you are using a Custom Value Processor, the following section must be uncommented.
+        # The mount path inside the container must be "/ValueProcessors". The external path should be the location where you have places the .DLL for the custom value processor(s)
+        # volumes:
+        #     - ${CVP_PATH-./ValueProcessors}:/ValueProcessors
+        # ORACLE ONLY: The "/tmp" path in the container must be mounted to the same external location as is mounted within the Oracle Helper container 
+        #     - /tmp:/tmp
         mem_limit: 12288m
     tonic_pii_detection:
-        image: quay.io/tonicai/tonic_pii_detection:latest
+        image: quay.io/tonicai/tonic_pii_detection:${VERSION_TAG:-latest}
         container_name: tonic_pii_detection
         mem_limit: 512m
         environment:
-            ENABLE_LOG_COLLECTION: "false"
-            ENVIRONMENT_NAME: [your name]
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         logging:
             driver: "json-file"
             options:
                 max-size: "200m"
                 max-file: "2"
     tonic_notifications:
-        image: quay.io/tonicai/tonic_notifications:latest
+        image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
         container_name: tonic_notifications
         mem_limit: 1024m
         ports:
             - 7000:80
             - 7001:443
         environment:
-            ENVIRONMENT_NAME: [your org name]
-            ENABLE_LOG_COLLECTION: "false"
-            TONIC_DB_HOST: [tonic db host]
-            TONIC_DB_PORT: [tonic db port]
-            TONIC_DB_DATABASE: [tonic db]
-            TONIC_DB_USERNAME: [tonic db username]
-            TONIC_DB_PASSWORD: [tonic db password]
-#            TONIC_URL: [tonic URL, for links]
-#            TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
-#            TONIC_NOTIFICATION_SMTP_SERVER_ADDRESS: [smtp host]
-#            TONIC_NOTIFICATION_SMTP_SERVER_PORT: [smtp port, 465]
-#            TONIC_NOTIFICATION_SMTP_USERNAME: [smtp username]
-#            TONIC_NOTIFICATION_SMTP_PASSWORD: [smtp password]
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            TONIC_DB_HOST: ${TONIC_DB_HOST}
+            TONIC_DB_PORT: ${TONIC_DB_PORT}
+            TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
+            TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
+            TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
+            # ENTERPRISE ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
+            # TONIC_URL: [tonic base URL, for links]
+            # TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
+            # TONIC_NOTIFICATION_SMTP_SERVER_ADDRESS: [smtp_host]
+            # TONIC_NOTIFICATION_SMTP_SERVER_PORT: [smtp_port, 465]
+            # TONIC_NOTIFICATION_SMTP_USERNAME: [smtp_username]
+            # TONIC_NOTIFICATION_SMTP_PASSWORD: [smtp_password]
         logging:
             driver: "json-file"
             options:
                 max-size: "200m"
                 max-file: "2"
     tonic_pyml_service:
-        image: quay.io/tonicai/tonic_pyml_service:latest
+        image: quay.io/tonicai/tonic_pyml_service:${VERSION_TAG:-latest}
         container_name: tonic_pyml_service
         mem_limit: 1024m
         environment:
-            ENABLE_LOG_COLLECTION: "false"
-            ENVIRONMENT_NAME: [your name]
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         logging:
             driver: "json-file"
             options:
@@ -91,19 +120,23 @@ services:
                 max-file: "2"
         ports:
             - 7700:7700
+    # ORACLE: ONLY USE THE FOLLOWING CONTAINER IF INTEGRATING WITH AN ORACLE DATABASE
     tonic_oracle_helper:
         # Uncomment the image which corresponds to your Oracle version: 11, 12, or 19
-        #image: quay.io/tonicai/tonic_oracle_helper_11_2:latest
-        #image: quay.io/tonicai/tonic_oracle_helper_12_2:latest
-        #image: quay.io/tonicai/tonic_oracle_helper_19:latest
+        # image: quay.io/tonicai/tonic_oracle_helper_11_2:${VERSION_TAG:-latest}
+        # image: quay.io/tonicai/tonic_oracle_helper_12_2:${VERSION_TAG:-latest}
+        # image: quay.io/tonicai/tonic_oracle_helper_19:${VERSION_TAG:-latest}
         container_name: tonic_oracle_helper
         ports:
             - 5000:5000
             - 5001:5001
         environment:
-            ENABLE_LOG_COLLECTION: "false"
+            # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
             NLS_LANG: "AMERICAN_AMERICA.AL32UTF8"
-            ENVIRONMENT_NAME: [your name]
+            # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
+            # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
+            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         logging:
             driver: "json-file"
             options:
@@ -111,14 +144,17 @@ services:
                 max-file: "2"
         volumes:
             - /tmp:/tmp
-    tonic_db:
-        image: postgres:9.6.10
-        restart: always
-        volumes:
-            - ./postgres-data:/var/lib/postgresql/data
-        environment:
-            POSTGRES_USER: [tonic db username]
-            POSTGRES_PASSWORD: [tonic db password]
-            POSTGRES_DB: [tonic db]
-        container_name: tonic_db
-        mem_limit: 512m
+    # OPTIONAL
+    # Tonic recommends a Postgres database running outside of Docker, however the section below can be used if needed.
+    # If using this, please ensure the mounted location is backed up regularly.
+    # tonic_db:
+    #     image: postgres:12
+    #     restart: always
+    #     volumes:
+    #         - ./postgres-data:/var/lib/postgresql/data
+    #     environment:
+    #         POSTGRES_USER: [tonic_db_username]
+    #         POSTGRES_PASSWORD: [tonic_db_password]
+    #         POSTGRES_DB: [tonic_db_name]
+    #     container_name: tonic_db
+    #     mem_limit: 512m
