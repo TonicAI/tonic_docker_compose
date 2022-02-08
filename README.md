@@ -67,7 +67,7 @@ The connection details for the Postgres metadata/application database which hold
 - `TONIC_DB_PASSWORD`
 
 ### Log Collection
-Tonic never collects your sensitive data. Enabling this option securely and safely shares logs with Tonic's engineering team. We recommend that you enable this option. See: (https://docs.tonic.ai/app/sharing-logs-with-tonic)
+Tonic never collects your sensitive data. Enabling this option securely and safely shares logs with Tonic's engineering team. We recommend that you enable this option. See: https://docs.tonic.ai/app/sharing-logs-with-tonic
 
 - `ENABLE_LOG_COLLECTION`: "false" (default) or "true"
 
