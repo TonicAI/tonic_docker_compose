@@ -15,11 +15,6 @@ services:
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         container_name: tonic_web_server
         mem_limit: 3072m
-        # OPTIONAL
-        # If you are using a Custom Value Processor, the following section must be uncommented.
-        # The mount path inside the container must be "/ValueProcessors". The external path should be the location where you have places the .DLL for the custom value processor(s)
-        # volumes:
-        #     - ${CVP_PATH-./ValueProcessors}:/ValueProcessors
         ports:
             - 80:80
             - 443:443
@@ -39,11 +34,6 @@ services:
             - 8080:80
             - 4433:443
         container_name: tonic_worker
-        # OPTIONAL
-        # If you are using a Custom Value Processor, the following section must be uncommented.
-        # The mount path inside the container must be "/ValueProcessors". The external path should be the location where you have places the .DLL for the custom value processor(s)
-        # volumes:
-        #     - ${CVP_PATH-./ValueProcessors}:/ValueProcessors
         # ORACLE ONLY: The "/tmp" path in the container must be mounted to the same external location as is mounted within the Oracle Helper container 
         #     - /tmp:/tmp
         mem_limit: 10240m
@@ -100,7 +90,7 @@ services:
                 max-file: "2"
         ports:
             - 7700:7700
-    # ORACLE: ONLY USE THE FOLLOWING CONTAINER IF INTEGRATING WITH AN ORACLE DATABASE
+    # ORACLE: Only use this container if integrating with an Oracle source and destination database.
     # tonic_oracle_helper:
     #     # Uncomment the image which corresponds to your Oracle version: 11, 12, or 19
     #     # image: quay.io/tonicai/tonic_oracle_helper_11_2:${VERSION_TAG:-latest}
@@ -111,11 +101,8 @@ services:
     #         - 5000:5000
     #         - 5001:5001
     #     environment:
-    #         # If log collection is enabled error and general usage information will be sent to Tonic. No source data is sent.
     #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
     #         NLS_LANG: "AMERICAN_AMERICA.AL32UTF8"
-    #         # This should be your company name and/or company name+environment if deploying multiple Tonic instances.
-    #         # E.g. "company-name", "company-name-dev", "company-name-staging", etc.
     #         ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
     #     logging:
     #         driver: "json-file"
@@ -124,8 +111,7 @@ services:
     #             max-file: "2"
     #     volumes:
     #         - /tmp:/tmp
-    # OPTIONAL
-    # Tonic recommends a Postgres database running outside of Docker, however the section below can be used if needed.
+    # OPTIONAL: Tonic recommends a Postgres database running outside of Docker, however the section below can be used if needed.
     # If using this, please ensure the mounted location is backed up regularly.
     # tonic_db:
     #     image: postgres:14
