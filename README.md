@@ -77,6 +77,15 @@ This value is used to support [Consistency](https://docs.tonic.ai/app/concepts/c
 
 - `TONIC_STATISTICS_SEED`: Any signed 32-bit integer, i.e. between -2147483648 and 2147483647
 
+### Ports
+The Tonic UI is accessible by default on ports 80 (HTTP) and 443 (HTTPS). These can be changed if you prefer or need to use different ports.
+
+``` yaml
+                ports:
+                        - 80:80
+                        - 443:443
+```
+
 ### Memory Limits
 The example docker-compose.yaml file includes memory limits per container. These are a baseline recommendation assuming a host with 16gb of memory dedicated to Tonic. In some cases it may be necessary to modify these limits and increase the total memory to more than 16gb.
 
