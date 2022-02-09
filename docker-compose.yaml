@@ -35,6 +35,7 @@ services:
             - 4433:443
         container_name: tonic_worker
         # ORACLE ONLY: The "/tmp" path in the container must be mounted to the same external location as is mounted within the Oracle Helper container 
+        # volumes:
         #     - /tmp:/tmp
         mem_limit: 10240m
     tonic_pii_detection:
