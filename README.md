@@ -21,11 +21,11 @@ services:
     tonic_pii_detection:
         image: quay.io/tonicai/tonic_pii_detection:latest
         ...
-    # OPTIONAL: This container must be deployed to support Webhooks and Email notifications.
+    # OPTIONAL (Recommended): This container must be deployed to support Webhooks and Email notifications.
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:latest
         ...
-    # OPTIONAL: This container must be deployed to use the Smart Linking generator.
+    # OPTIONAL (Recommended): This container must be deployed to use the Smart Linking generator.
     tonic_pyml_service:
         image: quay.io/tonicai/tonic_pyml_service:latest
         ...
