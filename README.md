@@ -58,6 +58,10 @@ Before deploying this setup, you need to rename [.template.env](.template.env) t
 
 - `VERSION_TAG`: "latest" or a specific version tag. Tonic's tag convention is just the release number, e.g. "123". Release notes are available at [doc.tonic.ai](https://docs.tonic.ai/app/release-notes).
 
+### Tonic Administrators
+
+- `TONIC_ADMINISTRATORS`: Optional. See: https://docs.tonic.ai/app/the-tonic-platform/admin-users
+
 ### Application Database
 The connection details for the Postgres metadata/application database which holds Tonic's state (user accounts, workspaces, etc.).
 
