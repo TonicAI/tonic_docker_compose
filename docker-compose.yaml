@@ -13,6 +13,7 @@ services:
             ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
             TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+            TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
         container_name: tonic_web_server
         mem_limit: 3072m
         ports:
