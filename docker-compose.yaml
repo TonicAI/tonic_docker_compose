@@ -8,9 +8,9 @@ services:
             TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
             TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
             TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
-            TONIC_DB_SSLMODE: require
+            TONIC_DB_SSLMODE: ${TONIC_DB_SSLMODE:-require}
             TONIC_LICENSE: ${TONIC_LICENSE}
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
             TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
@@ -27,8 +27,8 @@ services:
             TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
             TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
             TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
-            TONIC_DB_SSLMODE: require
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            TONIC_DB_SSLMODE: ${TONIC_DB_SSLMODE:-require}
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         ports:
@@ -44,7 +44,7 @@ services:
         container_name: tonic_pii_detection
         mem_limit: 512m
         environment:
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         logging:
             driver: "json-file"
@@ -60,12 +60,13 @@ services:
             - 7001:443
         environment:
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             TONIC_DB_HOST: ${TONIC_DB_HOST}
             TONIC_DB_PORT: ${TONIC_DB_PORT}
             TONIC_DB_DATABASE: ${TONIC_DB_DATABASE}
             TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
             TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
+            TONIC_DB_SSLMODE: ${TONIC_DB_SSLMODE:-require}
             # ENTERPRISE ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
             # TONIC_URL: [tonic base URL, for links]
             # TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
@@ -83,7 +84,7 @@ services:
         container_name: tonic_pyml_service
         mem_limit: 1024m
         environment:
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
         logging:
             driver: "json-file"
@@ -103,7 +104,7 @@ services:
     #         - 5000:5000
     #         - 5001:5001
     #     environment:
-    #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+    #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
     #         NLS_LANG: "AMERICAN_AMERICA.AL32UTF8"
     #         ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
     #     logging:
