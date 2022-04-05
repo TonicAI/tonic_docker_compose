@@ -1,7 +1,7 @@
 version: '2.4'
 services:
     tonic_web_server:
-        image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
+        image: tonic_web_server:${VERSION_TAG:-latest}
         environment:
             TONIC_DB_HOST: ${TONIC_DB_HOST}
             TONIC_DB_PORT: ${TONIC_DB_PORT}
@@ -13,12 +13,16 @@ services:
             ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+            TONIC_HOST_INTEGRATION: ${TONIC_HOST_INTEGRATION:-"None"}
+            TONIC_HOST_INTEGRATION_ACL: ${TONIC_HOST_INTEGRATION_ACL}
             TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
         container_name: tonic_web_server
         mem_limit: 3072m
         ports:
             - 80:80
             - 443:443
+        networks:
+          - tonic-ai
     tonic_worker:
         image: quay.io/tonicai/tonic_worker:${VERSION_TAG:-latest}
         environment:
@@ -39,6 +43,8 @@ services:
         # volumes:
         #     - /tmp:/tmp
         mem_limit: 10240m
+        networks:
+          - tonic-ai
     tonic_pii_detection:
         image: quay.io/tonicai/tonic_pii_detection:${VERSION_TAG:-latest}
         container_name: tonic_pii_detection
@@ -51,6 +57,8 @@ services:
             options:
                 max-size: "200m"
                 max-file: "2"
+        networks:
+          - tonic-ai
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
         container_name: tonic_notifications
@@ -79,6 +87,8 @@ services:
             options:
                 max-size: "200m"
                 max-file: "2"
+        networks:
+          - tonic-ai
     tonic_pyml_service:
         image: quay.io/tonicai/tonic_pyml_service:${VERSION_TAG:-latest}
         container_name: tonic_pyml_service
@@ -93,6 +103,26 @@ services:
                 max-file: "2"
         ports:
             - 7700:7700
+        networks:
+          - tonic-ai
+    # START ONE-CLICK UPDATE
+    # Uncomment this container of you would like to enable One-click Updates and Host Integration for
+    # Docker Compose. You will also need to uncomment and provide values for the similarly labeled
+    # section in your `.env` file. See the `.template.env` file for reference.
+    # tonic_acl:
+    #     image: tonic_acl:${VERSION_TAG:-latest}
+    #     container_name: tonic_acl
+    #     mem_limit: 512m
+    #     environment:
+    #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
+    #         ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+    #         DOCKER_REPO_USERNAME: ${DOCKER_REPO_USERNAME}
+    #         DOCKER_REPO_PASSWORD: ${DOCKER_REPO_PASSWORD}
+    #     volumes:
+    #         - /var/run/docker.sock:/var/run/docker.sock
+    #     networks:
+    #       - tonic-ai
+    # END ONE-CLICK UPDATE
     # ORACLE: Only use this container if integrating with an Oracle source and destination database.
     # tonic_oracle_helper:
     #     # Uncomment the image which corresponds to your Oracle version: 11, 12, or 19
@@ -114,6 +144,8 @@ services:
     #             max-file: "2"
     #     volumes:
     #         - /tmp:/tmp
+    #     networks:
+    #       - tonic-ai
     # OPTIONAL: Tonic recommends a Postgres database running outside of Docker, however the section below can be used if needed.
     # If using this, please ensure the mounted location is backed up regularly.
     # tonic_db:
@@ -127,3 +159,8 @@ services:
     #         POSTGRES_DB: [tonic_db_name]
     #     container_name: tonic_db
     #     mem_limit: 512m
+    #     networks:
+    #       - tonic-ai
+networks:
+  tonic-ai:
+    driver: bridge

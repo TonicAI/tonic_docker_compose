@@ -71,6 +71,20 @@ The connection details for the Postgres metadata/application database which hold
 - `TONIC_DB_USERNAME`
 - `TONIC_DB_PASSWORD`
 
+### One-Click Update and Host Integration
+Tonic support One-Click Updates and other Host Integration features for Docker Compose.  To enable these features, you will need to uncomment the relevant container in the `docker-compose.yaml` file.  You will also need to provide values in your `.env` file or if creating a new `.env` file, then uncomment the relevant section from `.template.env`.  The values that are needed are:
+
+- `TONIC_HOST_INTEGRATION`
+  - This value should be left as "DockerCompose"
+- `TONIC_HOST_INTEGRATION_ACL`
+  - If you rename or other change the container in the `docker-compose.yaml` file, you will need to change this setting accordingly.  Otherwise it should be left as "http://tonic_acl".
+- `DOCKER_REPO_USERNAME`
+  - The user account name for your Quay.io login.
+  - This is needed to allow this feature to download updated images from Quay.
+- `DOCKER_REPO_PASSWORD`
+  - The user account key/password for your Quay.io login.
+  - This is needed to allow this feature to download updated images from Quay.
+
 ### Log Collection
 Tonic never collects your sensitive data. Enabling this option securely and safely shares logs with Tonic's engineering team. We recommend that you enable this option. See: https://docs.tonic.ai/app/sharing-logs-with-tonic
 
