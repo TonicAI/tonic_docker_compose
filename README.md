@@ -77,7 +77,7 @@ Tonic support One-Click Updates and other Host Integration features for Docker C
 - `TONIC_HOST_INTEGRATION`
   - This value should be left as "DockerCompose"
 - `TONIC_HOST_INTEGRATION_ACL`
-  - If you rename or other change the container in the `docker-compose.yaml` file, you will need to change this setting accordingly.  Otherwise it should be left as "http://tonic_acl".
+  - If you rename or other change the container in the `docker-compose.yaml` file, you will need to change this setting accordingly.  Otherwise it should be left as "http://tonic_docker_acl".
 - `DOCKER_REPO_USERNAME`
   - The user account name for your Quay.io login.
   - This is needed to allow this feature to download updated images from Quay.

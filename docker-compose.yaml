@@ -109,9 +109,9 @@ services:
     # Uncomment this container of you would like to enable One-click Updates and Host Integration for
     # Docker Compose. You will also need to uncomment and provide values for the similarly labeled
     # section in your `.env` file. See the `.template.env` file for reference.
-    # tonic_acl:
-    #     image: tonic_acl:${VERSION_TAG:-latest}
-    #     container_name: tonic_acl
+    # tonic_docker_acl:
+    #     image: tonic_docker_acl:${VERSION_TAG:-latest}
+    #     container_name: tonic_docker_acl
     #     mem_limit: 512m
     #     environment:
     #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
