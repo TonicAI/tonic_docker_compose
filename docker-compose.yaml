@@ -1,7 +1,7 @@
 version: '2.4'
 services:
     tonic_web_server:
-        image: tonic_web_server:${VERSION_TAG:-latest}
+        image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
         environment:
             TONIC_DB_HOST: ${TONIC_DB_HOST}
             TONIC_DB_PORT: ${TONIC_DB_PORT}
@@ -110,7 +110,7 @@ services:
     # Docker Compose. You will also need to uncomment and provide values for the similarly labeled
     # section in your `.env` file. See the `.template.env` file for reference.
     # tonic_docker_acl:
-    #     image: tonic_docker_acl:${VERSION_TAG:-latest}
+    #     image: quay.io/tonicai/tonic_docker_acl:${VERSION_TAG:-latest}
     #     container_name: tonic_docker_acl
     #     mem_limit: 512m
     #     environment:
@@ -154,9 +154,9 @@ services:
     #     volumes:
     #         - ./postgres-data:/var/lib/postgresql/data
     #     environment:
-    #         POSTGRES_USER: [tonic_db_username]
-    #         POSTGRES_PASSWORD: [tonic_db_password]
-    #         POSTGRES_DB: [tonic_db_name]
+    #         POSTGRES_USER: ${TONIC_DB_USERNAME}
+    #         POSTGRES_PASSWORD: ${TONIC_DB_PASSWORD}
+    #         POSTGRES_DB: ${TONIC_DB_DATABASE}
     #     container_name: tonic_db
     #     mem_limit: 512m
     #     networks:
