@@ -17,6 +17,7 @@ services:
             TONIC_HOST_INTEGRATION_ACL: ${TONIC_HOST_INTEGRATION_ACL}
             TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
         container_name: tonic_web_server
+        restart: unless-stopped
         mem_limit: 3072m
         ports:
             - 80:80
@@ -39,6 +40,7 @@ services:
             - 8080:80
             - 4433:443
         container_name: tonic_worker
+        restart: unless-stopped
         # ORACLE ONLY: The "/tmp" path in the container must be mounted to the same external location as is mounted within the Oracle Helper container 
         # volumes:
         #     - /tmp:/tmp
@@ -48,6 +50,7 @@ services:
     tonic_pii_detection:
         image: quay.io/tonicai/tonic_pii_detection:${VERSION_TAG:-latest}
         container_name: tonic_pii_detection
+        restart: unless-stopped
         mem_limit: 512m
         environment:
             ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
@@ -62,6 +65,7 @@ services:
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
         container_name: tonic_notifications
+        restart: unless-stopped
         mem_limit: 1024m
         ports:
             - 7000:80
@@ -92,6 +96,7 @@ services:
     tonic_pyml_service:
         image: quay.io/tonicai/tonic_pyml_service:${VERSION_TAG:-latest}
         container_name: tonic_pyml_service
+        restart: unless-stopped
         mem_limit: 1024m
         environment:
             ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
@@ -112,6 +117,7 @@ services:
     # tonic_docker_acl:
     #     image: quay.io/tonicai/tonic_docker_acl:${VERSION_TAG:-latest}
     #     container_name: tonic_docker_acl
+    #     restart: unless-stopped
     #     mem_limit: 512m
     #     environment:
     #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
@@ -130,6 +136,7 @@ services:
     #     # image: quay.io/tonicai/tonic_oracle_helper_12_2:${VERSION_TAG:-latest}
     #     # image: quay.io/tonicai/tonic_oracle_helper_19:${VERSION_TAG:-latest}
     #     container_name: tonic_oracle_helper
+    #     restart: unless-stopped
     #     ports:
     #         - 5000:5000
     #         - 5001:5001
