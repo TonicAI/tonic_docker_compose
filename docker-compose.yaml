@@ -1,4 +1,7 @@
 version: '2.4'
+networks:
+  tonic-ai:
+    driver: bridge
 services:
     tonic_web_server:
         image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
@@ -16,6 +19,7 @@ services:
             TONIC_HOST_INTEGRATION: ${TONIC_HOST_INTEGRATION:-"None"}
             TONIC_HOST_INTEGRATION_ACL: ${TONIC_HOST_INTEGRATION_ACL}
             TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
+            TONIC_DISABLE_ACCOUNT_CREATION: ${TONIC_DISABLE_ACCOUNT_CREATION:-false}
         container_name: tonic_web_server
         restart: unless-stopped
         mem_limit: 3072m
@@ -168,6 +172,3 @@ services:
     #     mem_limit: 512m
     #     networks:
     #       - tonic-ai
-networks:
-  tonic-ai:
-    driver: bridge
