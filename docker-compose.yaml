@@ -40,6 +40,8 @@ services:
             ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
             TONIC_STATISTICS_SEED: ${TONIC_STATISTICS_SEED}
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
+            # should be the same as the tonic web server service name
+            TONIC_WEB_URL: https://tonic_web_server
         ports:
             - 8080:80
             - 4433:443
