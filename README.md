@@ -114,6 +114,8 @@ In particular,
 - Nvidia drivers must be installed on the host machine. This can be verified by running `nvidia-smi` in a terminal.
 - The nvidia-container-runtime must be installed. This can be verfiied by running `which nvidia-container-runtime-hook` in a terminal.
 
+Additionally, uncomment the `deploy` section of the docker-compose.yaml file for the tonic_pyml_service container.
+
 ## Deploy
 To run Tonic, execute the `docker-compose up -d` command from within the directory containing your docker-compose.yaml file.
 
