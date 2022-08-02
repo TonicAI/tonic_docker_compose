@@ -107,6 +107,15 @@ The Tonic UI is accessible by default on ports 80 (HTTP) and 443 (HTTPS). These 
 ### Memory Limits
 The example docker-compose.yaml file includes memory limits per container. These are a baseline recommendation assuming a host with 16gb of memory dedicated to Tonic. In some cases it may be necessary to modify these limits and increase the total memory to more than 16gb.
 
+### GPU support for PyML
+The PyML container is used to support the [AI Synthesizer](https://docs.tonic.ai/app/generation/generators/ai-synthesizer) generator and Djinn. The docker-compose.yaml file contains additional optional configuration options to enable Nvidia GPU support for PyML.
+In order for these settings to take effect, you must follow [these steps from the Docker documentation page](https://docs.docker.com/config/containers/resource_constraints/#gpu).
+In particular,
+- Nvidia drivers must be installed on the host machine. This can be verified by running `nvidia-smi` in a terminal.
+- The nvidia-container-runtime must be installed. This can be verfiied by running `which nvidia-container-runtime-hook` in a terminal.
+
+Additionally, uncomment the `deploy` section of the docker-compose.yaml file for the tonic_pyml_service container.
+
 ## Deploy
 To run Tonic, execute the `docker-compose up -d` command from within the directory containing your docker-compose.yaml file.
 
