@@ -48,7 +48,7 @@ Before deploying this setup, you need to rename [.template.env](.template.env) t
 
 ### Tonic License
 
-- `TONIC_LICENSE`: This value will be provided by Tonic.
+- This value will be provided by Tonic and must be input upon first startup of Tonic. Subsequently, it can be updated [from within the Tonic Admin portal](https://docs.tonic.ai/app/admin/on-premise-deployment/license-key-enter-update). Note that this was previously maintained via the `TONIC_LICENSE` environment variable, but this variable is no longer needed since version 519.
 
 ### Environment Name
 
