@@ -29,10 +29,6 @@ services:
     tonic_pyml_service:
         image: quay.io/tonicai/tonic_pyml_service:latest
         ...
-    # OPTIONAL: This container must be deployed if you are using an Oracle source and destination database.
-    tonic_oracle_helper:
-        image: quay.io/tonicai/tonic_oracle_helper_19:latest
-        ...
     # OPTIONAL: It is recommended to use a standalone or managed Postgres database
     # (e.g. AWS RDS for PostgreSQL, GCP Cloud SQL for PostgreSQL, Azure Database for PostgreSQL) for Tonic's application database.
     # These provide many benefits such as automated backups and patches/upgrades. But a containerized PostgreSQL database can be used.
