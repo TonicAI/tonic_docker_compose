@@ -134,29 +134,6 @@ services:
     #     networks:
     #       - tonic-ai
     # END ONE-CLICK UPDATE
-    # ORACLE: Only use this container if integrating with an Oracle source and destination database.
-    # tonic_oracle_helper:
-    #     # Uncomment the image which corresponds to your Oracle version: 11, 12, or 19
-    #     # image: quay.io/tonicai/tonic_oracle_helper_11_2:${VERSION_TAG:-latest}
-    #     # image: quay.io/tonicai/tonic_oracle_helper_12_2:${VERSION_TAG:-latest}
-    #     # image: quay.io/tonicai/tonic_oracle_helper_19:${VERSION_TAG:-latest}
-    #     container_name: tonic_oracle_helper
-    #     ports:
-    #         - 5000:5000
-    #         - 5001:5001
-    #     environment:
-    #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
-    #         NLS_LANG: "AMERICAN_AMERICA.AL32UTF8"
-    #         ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-    #     logging:
-    #         driver: "json-file"
-    #         options:
-    #             max-size: "200m"
-    #             max-file: "2"
-    #     volumes:
-    #         - /tmp:/tmp
-    #     networks:
-    #       - tonic-ai
     # OPTIONAL: Tonic recommends a Postgres database running outside of Docker, however the section below can be used if needed.
     # If using this, please ensure the mounted location is backed up regularly.
     # tonic_db:
