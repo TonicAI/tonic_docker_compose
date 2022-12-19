@@ -29,10 +29,6 @@ services:
     tonic_pyml_service:
         image: quay.io/tonicai/tonic_pyml_service:latest
         ...
-    # OPTIONAL: This container must be deployed if you are using an Oracle source and destination database.
-    tonic_oracle_helper:
-        image: quay.io/tonicai/tonic_oracle_helper_19:latest
-        ...
     # OPTIONAL: It is recommended to use a standalone or managed Postgres database
     # (e.g. AWS RDS for PostgreSQL, GCP Cloud SQL for PostgreSQL, Azure Database for PostgreSQL) for Tonic's application database.
     # These provide many benefits such as automated backups and patches/upgrades. But a containerized PostgreSQL database can be used.
@@ -48,7 +44,7 @@ Before deploying this setup, you need to rename [.template.env](.template.env) t
 
 ### Tonic License
 
-- `TONIC_LICENSE`: This value will be provided by Tonic.
+- This value will be provided by Tonic and must be input upon first startup of Tonic. Subsequently, it can be updated [from within the Tonic Admin portal](https://docs.tonic.ai/app/admin/on-premise-deployment/license-key-enter-update). Note that this was previously maintained via the `TONIC_LICENSE` environment variable, but this variable is no longer needed since version 519.
 
 ### Environment Name
 
@@ -106,6 +102,15 @@ The Tonic UI is accessible by default on ports 80 (HTTP) and 443 (HTTPS). These 
 
 ### Memory Limits
 The example docker-compose.yaml file includes memory limits per container. These are a baseline recommendation assuming a host with 16gb of memory dedicated to Tonic. In some cases it may be necessary to modify these limits and increase the total memory to more than 16gb.
+
+### GPU support for PyML
+The PyML container is used to support the [AI Synthesizer](https://docs.tonic.ai/app/generation/generators/ai-synthesizer) generator and Djinn. The docker-compose.yaml file contains additional optional configuration options to enable Nvidia GPU support for PyML.
+In order for these settings to take effect, you must follow [these steps from the Docker documentation page](https://docs.docker.com/config/containers/resource_constraints/#gpu).
+In particular,
+- Nvidia drivers must be installed on the host machine. This can be verified by running `nvidia-smi` in a terminal.
+- The nvidia-container-runtime must be installed. This can be verfiied by running `which nvidia-container-runtime-hook` in a terminal.
+
+Additionally, uncomment the `deploy` section of the docker-compose.yaml file for the tonic_pyml_service container.
 
 ## Deploy
 To run Tonic, execute the `docker-compose up -d` command from within the directory containing your docker-compose.yaml file.
