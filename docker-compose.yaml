@@ -45,20 +45,6 @@ services:
         mem_limit: 10240m
         networks:
           - tonic-ai
-    tonic_pii_detection:
-        image: quay.io/tonicai/tonic_pii_detection:${VERSION_TAG:-latest}
-        container_name: tonic_pii_detection
-        mem_limit: 512m
-        environment:
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
-            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "200m"
-                max-file: "2"
-        networks:
-          - tonic-ai
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
         container_name: tonic_notifications
