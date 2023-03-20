@@ -61,7 +61,7 @@ services:
             TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
             TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
             TONIC_DB_SSLMODE: ${TONIC_DB_SSLMODE:-require}
-            # ENTERPRISE ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
+            # PROFESSIONAL AND ENTERPRISE TIER ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
             # TONIC_URL: [tonic base URL, for links]
             # TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
             # TONIC_NOTIFICATION_SMTP_SERVER_ADDRESS: [smtp_host]
