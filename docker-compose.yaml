@@ -43,6 +43,8 @@ services:
             - 4433:443
         container_name: tonic_worker
         mem_limit: 10240m
+        depends_on:
+          - tonic_web_server
         networks:
           - tonic-ai
     tonic_notifications:
@@ -73,6 +75,8 @@ services:
             options:
                 max-size: "200m"
                 max-file: "2"
+        depends_on:
+          - tonic_web_server
         networks:
           - tonic-ai
     tonic_pyml_service:
