@@ -49,21 +49,8 @@ services:
         container_name: tonic_worker
         restart: unless-stopped
         mem_limit: 10240m
-        networks:
-          - tonic-ai
-    tonic_pii_detection:
-        image: quay.io/tonicai/tonic_pii_detection:${VERSION_TAG:-latest}
-        container_name: tonic_pii_detection
-        restart: unless-stopped
-        mem_limit: 512m
-        environment:
-            ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-false}
-            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "200m"
-                max-file: "2"
+        depends_on:
+          - tonic_web_server
         networks:
           - tonic-ai
     tonic_notifications:
@@ -83,7 +70,7 @@ services:
             TONIC_DB_USERNAME: ${TONIC_DB_USERNAME}
             TONIC_DB_PASSWORD: ${TONIC_DB_PASSWORD}
             TONIC_DB_SSLMODE: ${TONIC_DB_SSLMODE:-require}
-            # ENTERPRISE ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
+            # PROFESSIONAL AND ENTERPRISE TIER ONLY, OPTIONAL: The following variable must be set to enable Tonic to send notification emails as part of workspace comment functionality
             # TONIC_URL: [tonic base URL, for links]
             # TONIC_NOTIFICATION_SENDING_ADDRESS: notifications@[yourdomain.com]
             # TONIC_NOTIFICATION_SMTP_SERVER_ADDRESS: [smtp_host]
@@ -95,6 +82,8 @@ services:
             options:
                 max-size: "200m"
                 max-file: "2"
+        depends_on:
+          - tonic_web_server
         networks:
           - tonic-ai
     tonic_pyml_service:

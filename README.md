@@ -18,9 +18,6 @@ services:
     tonic_worker:
         image: quay.io/tonicai/tonic_worker:latest
         ...
-    tonic_pii_detection:
-        image: quay.io/tonicai/tonic_pii_detection:latest
-        ...
     # OPTIONAL (Recommended): This container must be deployed to support Webhooks and Email notifications.
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:latest
@@ -118,7 +115,6 @@ To run Tonic, execute the `docker-compose up -d` command from within the directo
 ``` shell
 $ docker-compose up -d
 Creating tonic_worker        ... done
-Creating tonic_pii_detection ... done
 Creating tonic_pyml_service  ... done
 Creating tonic_notifications ... done
 Creating tonic_web_server    ... done
@@ -133,7 +129,6 @@ $ docker ps
 CONTAINER ID   IMAGE                                           COMMAND                  CREATED         STATUS                   PORTS                                         NAMES
 80e549224dd5   quay.io/tonicai/tonic_worker:latest             "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:8080->80/tcp, 0.0.0.0:4433->443/tcp   tonic_worker
 b30fb352247d   quay.io/tonicai/tonic_pyml_service:latest       "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:7700->7700/tcp                        tonic_pyml_service
-99b2a09d96ef   quay.io/tonicai/tonic_pii_detection:latest      "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:7687->7687/tcp                        tonic_pii_detection
 f1379937bed8   quay.io/tonicai/tonic_web_server:latest         "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp      tonic_web_server
 932379479ce9   quay.io/tonicai/tonic_notifications:latest      "/bin/sh -c 'sh star…"   3 minutes ago   Up 3 minutes             0.0.0.0:7000->80/tcp, 0.0.0.0:7001->443/tcp   tonic_notifications
 ```
