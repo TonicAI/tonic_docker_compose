@@ -103,10 +103,9 @@ services:
             - 7700:7700
         networks:
           - tonic-ai
-    # START ONE-CLICK UPDATE
-    # Uncomment this container of you would like to enable One-click Updates and Host Integration for
-    # Docker Compose. You will also need to uncomment and provide values for the similarly labeled
-    # section in your `.env` file. See the `.template.env` file for reference.
+    # START HOST INTEGRATION
+    # Uncomment this container of you would like to enable Host Integration for Docker Compose. You will also need to uncomment
+    # the similar section in your `.env` file. See the `.template.env` file for reference.
     # tonic_docker_acl:
     #     image: quay.io/tonicai/tonic_docker_acl:${VERSION_TAG:-latest}
     #     container_name: tonic_docker_acl
@@ -114,8 +113,6 @@ services:
     #     environment:
     #         ENABLE_LOG_COLLECTION: ${ENABLE_LOG_COLLECTION:-"false"}
     #         ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-    #         DOCKER_REPO_USERNAME: ${DOCKER_REPO_USERNAME}
-    #         DOCKER_REPO_PASSWORD: ${DOCKER_REPO_PASSWORD}
     #     volumes:
     #         - /var/run/docker.sock:/var/run/docker.sock
     #     networks:
