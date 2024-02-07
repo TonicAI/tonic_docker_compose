@@ -17,6 +17,7 @@ services:
             TONIC_HOST_INTEGRATION: ${TONIC_HOST_INTEGRATION:-None}
             TONIC_HOST_INTEGRATION_ACL: ${TONIC_HOST_INTEGRATION_ACL}
             TONIC_ADMINISTRATORS: ${TONIC_ADMINISTRATORS}
+            TONIC_FILE_REPLACEMENT_GENERATOR_ENABLED: ${TONIC_FILE_REPLACEMENT_GENERATOR_ENABLED:-false}
         container_name: tonic_web_server
         mem_limit: 3072m
         ports:
@@ -38,6 +39,8 @@ services:
             ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
             # should be the same as the tonic web server service name
             TONIC_WEB_URL: https://tonic_web_server
+            TONIC_FILE_REPLACEMENT_GENERATOR_ENABLED: ${TONIC_FILE_REPLACEMENT_GENERATOR_ENABLED:-false}
+            TONIC_FILE_REPLACEMENT_GENERATOR_DIRECTORY: /data/tonic/file_replacement
         ports:
             - 8080:80
             - 4433:443
@@ -47,6 +50,8 @@ services:
           - tonic_web_server
         networks:
           - tonic-ai
+        volumes:
+          - ${TONIC_FILE_REPLACEMENT_GENERATOR_DIRECTORY:-/dev/null}:/data/tonic/file_replacement:ro
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
         container_name: tonic_notifications
