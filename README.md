@@ -49,7 +49,7 @@ Before deploying this setup, you need to rename [.template.env](.template.env) t
 
 ### Version
 
-- `VERSION_TAG`: "latest" or a specific version tag. Tonic's tag convention is just the release number, e.g. "123". Release notes are available at [doc.tonic.ai](https://docs.tonic.ai/app/release-notes).
+- `VERSION_TAG`: "latest" or a specific version tag. Tonic's tag convention is just the release number. For example, "123". Release notes are available on the [Tonic website](https://www.tonic.ai/product-release-notes/structural).
 
 ### Tonic Administrators
 
