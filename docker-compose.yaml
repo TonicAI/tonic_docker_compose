@@ -3,6 +3,24 @@ networks:
   tonic-ai:
     driver: bridge
 services:
+    # Custom Swan notification relay to EventBridge
+    tonic_webhook_relay:
+        image: 811352430995.dkr.ecr.us-east-1.amazonaws.com/docker-hub/ncarlier/webhookd:1.20.1
+        entrypoint: sh -c 'apk add --no-cache jq aws-cli; webhookd'
+        user: root
+        restart: unless-stopped
+        mem_limit: 128m
+        logging:
+            options:
+                max-size: 1m
+                max-file: 1
+        networks:
+            - tonic-ai
+        ports:
+            - "8888:8080"
+        volumes:
+            - /etc/tonic/scripts:/scripts:ro
+
     tonic_web_server:
         image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
         environment:
