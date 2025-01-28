@@ -72,11 +72,6 @@ Tonic Host Integration features for Docker Compose.  To enable these features, y
 - `TONIC_HOST_INTEGRATION_ACL`
   - If you rename or other change the container in the `docker-compose.yaml` file, you will need to change this setting accordingly.  Otherwise it should be left as "http://tonic_docker_acl".
 
-### Log Collection
-Tonic never collects your sensitive data. Enabling this option securely and safely shares logs with Tonic's engineering team. We recommend that you enable this option. See: https://docs.tonic.ai/app/sharing-logs-with-tonic
-
-- `ENABLE_LOG_COLLECTION`: "false" (default) or "true"
-
 ### Consistency Seed
 This value is used to support [Consistency](https://docs.tonic.ai/app/concepts/consistency) functionality across data generations.
 
