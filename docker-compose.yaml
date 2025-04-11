@@ -76,29 +76,6 @@ services:
           - tonic_web_server
         networks:
           - tonic-ai
-    tonic_pyml_service:
-        image: quay.io/tonicai/tonic_pyml_service:${VERSION_TAG:-latest}
-        container_name: tonic_pyml_service
-        # OPTIONAL: Uncomment to enable GPU resource. Additional configuration must be completed. See: https://docs.docker.com/config/containers/resource_constraints/#gpu
-        # deploy:
-        #     resources:
-        #         reservations:
-        #             devices:
-        #                 -   driver: nvidia
-        #                     count: 1
-        #                     capabilities: [ gpu ]
-        mem_limit: 1024m
-        environment:
-            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "200m"
-                max-file: "2"
-        ports:
-            - 7700:7700
-        networks:
-          - tonic-ai
     # START HOST INTEGRATION
     # Uncomment this container of you would like to enable Host Integration for Docker Compose. You will also need to uncomment
     # the similar section in your `.env` file. See the `.template.env` file for reference.
