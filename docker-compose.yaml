@@ -1,7 +1,7 @@
 version: '2.4'
 services:
     tonic_web_server:
-        image: quay.io/tonicai/tonic_web_server:${VERSION_TAG:-latest}
+        image: quay.io/tonicai/tonic_web_server${USE_UNPRIVILEGED_IMAGES:+_unprivileged}:${VERSION_TAG:-latest}
         environment:
             TONIC_DB_HOST: ${TONIC_DB_HOST}
             TONIC_DB_PORT: ${TONIC_DB_PORT}
@@ -24,7 +24,7 @@ services:
         networks:
           - tonic-ai
     tonic_worker:
-        image: quay.io/tonicai/tonic_worker:${VERSION_TAG:-latest}
+        image: quay.io/tonicai/tonic_worker${USE_UNPRIVILEGED_IMAGES:+_unprivileged}:${VERSION_TAG:-latest}
         environment:
             TONIC_DB_HOST: ${TONIC_DB_HOST}
             TONIC_DB_PORT: ${TONIC_DB_PORT}
@@ -46,7 +46,7 @@ services:
         networks:
           - tonic-ai
     tonic_notifications:
-        image: quay.io/tonicai/tonic_notifications:${VERSION_TAG:-latest}
+        image: quay.io/tonicai/tonic_notifications${USE_UNPRIVILEGED_IMAGES:+_unprivileged}:${VERSION_TAG:-latest}
         container_name: tonic_notifications
         mem_limit: 1024m
         ports:
@@ -74,29 +74,6 @@ services:
                 max-file: "2"
         depends_on:
           - tonic_web_server
-        networks:
-          - tonic-ai
-    tonic_pyml_service:
-        image: quay.io/tonicai/tonic_pyml_service:${VERSION_TAG:-latest}
-        container_name: tonic_pyml_service
-        # OPTIONAL: Uncomment to enable GPU resource. Additional configuration must be completed. See: https://docs.docker.com/config/containers/resource_constraints/#gpu
-        # deploy:
-        #     resources:
-        #         reservations:
-        #             devices:
-        #                 -   driver: nvidia
-        #                     count: 1
-        #                     capabilities: [ gpu ]
-        mem_limit: 1024m
-        environment:
-            ENVIRONMENT_NAME: ${ENVIRONMENT_NAME}
-        logging:
-            driver: "json-file"
-            options:
-                max-size: "200m"
-                max-file: "2"
-        ports:
-            - 7700:7700
         networks:
           - tonic-ai
     # START HOST INTEGRATION
