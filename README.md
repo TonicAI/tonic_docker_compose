@@ -22,10 +22,6 @@ services:
     tonic_notifications:
         image: quay.io/tonicai/tonic_notifications:latest
         ...
-    # OPTIONAL (Recommended): This container must be deployed to use the Smart Linking generator.
-    tonic_pyml_service:
-        image: quay.io/tonicai/tonic_pyml_service:latest
-        ...
     # OPTIONAL: It is recommended to use a standalone or managed Postgres database
     # (e.g. AWS RDS for PostgreSQL, GCP Cloud SQL for PostgreSQL, Azure Database for PostgreSQL) for Tonic's application database.
     # These provide many benefits such as automated backups and patches/upgrades. But a containerized PostgreSQL database can be used.
@@ -89,22 +85,12 @@ The Tonic UI is accessible by default on ports 80 (HTTP) and 443 (HTTPS). These 
 ### Memory Limits
 The example docker-compose.yaml file includes memory limits per container. These are a baseline recommendation assuming a host with 16gb of memory dedicated to Tonic. In some cases it may be necessary to modify these limits and increase the total memory to more than 16gb.
 
-### GPU support for PyML
-The PyML container is used to support the [AI Synthesizer](https://docs.tonic.ai/app/generation/generators/ai-synthesizer) generator and Djinn. The docker-compose.yaml file contains additional optional configuration options to enable Nvidia GPU support for PyML.
-In order for these settings to take effect, you must follow [these steps from the Docker documentation page](https://docs.docker.com/config/containers/resource_constraints/#gpu).
-In particular,
-- Nvidia drivers must be installed on the host machine. This can be verified by running `nvidia-smi` in a terminal.
-- The nvidia-container-runtime must be installed. This can be verfiied by running `which nvidia-container-runtime-hook` in a terminal.
-
-Additionally, uncomment the `deploy` section of the docker-compose.yaml file for the tonic_pyml_service container.
-
 ## Deploy
 To run Tonic, execute the `docker-compose up -d` command from within the directory containing your docker-compose.yaml file.
 
 ``` shell
 $ docker-compose up -d
 Creating tonic_worker        ... done
-Creating tonic_pyml_service  ... done
 Creating tonic_notifications ... done
 Creating tonic_web_server    ... done
 ```
@@ -117,7 +103,6 @@ Use `docker ps` to check that containers are running:
 $ docker ps
 CONTAINER ID   IMAGE                                           COMMAND                  CREATED         STATUS                   PORTS                                         NAMES
 80e549224dd5   quay.io/tonicai/tonic_worker:latest             "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:8080->80/tcp, 0.0.0.0:4433->443/tcp   tonic_worker
-b30fb352247d   quay.io/tonicai/tonic_pyml_service:latest       "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:7700->7700/tcp                        tonic_pyml_service
 f1379937bed8   quay.io/tonicai/tonic_web_server:latest         "/bin/sh -c 'bash st…"   3 minutes ago   Up 3 minutes             0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp      tonic_web_server
 932379479ce9   quay.io/tonicai/tonic_notifications:latest      "/bin/sh -c 'sh star…"   3 minutes ago   Up 3 minutes             0.0.0.0:7000->80/tcp, 0.0.0.0:7001->443/tcp   tonic_notifications
 ```
